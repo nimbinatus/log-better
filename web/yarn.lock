@@ -796,6 +796,32 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@browser-bunyan/console-formatted-stream@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/console-formatted-stream/-/console-formatted-stream-1.5.3.tgz#d0fc48f8d0dd982e373d8dc5485493f9b571c5fa"
+  integrity sha512-ZfxkXgiSWBfOWhgeSFip5rih9gpdHDzOiJtZ7SqhJNZ/syp+Ab+gfy9oLpJhzS7SUjhOW9fXEfSYD3Pc6jJ3/w==
+  dependencies:
+    "@browser-bunyan/levels" "^1.5.3"
+
+"@browser-bunyan/console-plain-stream@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/console-plain-stream/-/console-plain-stream-1.5.3.tgz#31c3de65eddd9a4bc80baae475c68289c7a06a29"
+  integrity sha512-fiAFlAwTRG8dq9+WYTcZJlktU2UIHzs9CkBNZMtHfHg1uZcJAYiHxqCuuwgqjFBQEjwW4gej/NtZqvTGwJ/xyA==
+  dependencies:
+    "@browser-bunyan/levels" "^1.5.3"
+
+"@browser-bunyan/console-raw-stream@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/console-raw-stream/-/console-raw-stream-1.5.3.tgz#c52c1e7f2c8b89927790272b58c0567b5fe9ab0c"
+  integrity sha512-DmrbuRiEN405wRAvDrm7KvXmmb1qKe9bCTOF3s89UQnSVTRH2BWFeE7pCpp5s6XDiEAvaH8pG7HISkV/6IvBow==
+  dependencies:
+    "@browser-bunyan/levels" "^1.5.3"
+
+"@browser-bunyan/levels@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/levels/-/levels-1.5.3.tgz#3bcc62544d5cae219a30c6b1ea455b5408a1b647"
+  integrity sha512-mwIpHU0lfQmTcjLajB0LVe3DZaWxxv3eBY2meAjKS7bvimji3ysHZqjmCxD1z4cJJNVjjmKY1KLGVbCC3XETxQ==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
@@ -2010,6 +2036,16 @@ brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
+
+browser-bunyan@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/browser-bunyan/-/browser-bunyan-1.5.3.tgz#4a73772e7524359c51e6a3b9b5624287c48c5c6b"
+  integrity sha512-ijym10RK/fVIpWIEHxwfRQALSY8WFVUNyU8JBVMYF/TfllCv3/V4mNsv0dV5+U3Kr+lpdoJAM6qvkkEudV5L+w==
+  dependencies:
+    "@browser-bunyan/console-formatted-stream" "^1.5.3"
+    "@browser-bunyan/console-plain-stream" "^1.5.3"
+    "@browser-bunyan/console-raw-stream" "^1.5.3"
+    "@browser-bunyan/levels" "^1.5.3"
 
 browser-process-hrtime@^0.1.2:
   version "0.1.3"

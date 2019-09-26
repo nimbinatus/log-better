@@ -2,7 +2,7 @@ import React from 'react';
 import {createLogger,ConsoleFormattedStream} from 'browser-bunyan';
 
 const logger = createLogger({
-    name: 'textform-log',
+    name: 'jsonform-log',
     streams: [
         {
             level: 'info',
@@ -12,11 +12,12 @@ const logger = createLogger({
     ]
 });
 
-class LogForm extends React.Component {
+class JsonLogForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
+            field1: '',
+            field2: '',
             res: '',
             status: ''
         };
@@ -26,37 +27,45 @@ class LogForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
-        logger.debug(`State set to ${this.state.value}.`)
+        this.setState({
+            ...this.state,
+            [event.target.name]: event.target.value
+        });
+        logger.debug(`The values are ${this.state.field1} and ${this.state.field2}`);
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        this.postLog(this.state.value).then(() => {
+        let generalData = {
+            key1: `${this.state.field1}`,
+            key2: `${this.state.field2}`
+        };
+        this.postLog(generalData).then(() => {
             if (this.state.status === 200) {
-                logger.info(this.state.status)
+                logger.info(this.state.status);
             } else {
-                logger.warn(this.state.status)
+                logger.warn(this.state.status);
             }
         });
     }
 
-    async postLog(body) {
+    async postLog(bodyData) {
         const response = await fetch(this.props.api, {
             method: 'POST',
-            mode: 'no-cors',
-            body: `${body}`,
+            mode: 'cors',
             headers: {
-                "Content-type": "text/plain"
-            }
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bodyData)
         }).then((res) => {
             this.setState({
-                status: res.status,
+                status: res.status
             });
             return res.json()
         }).then((data) => {
             this.setState({
-                res: data.body,
+                res: data,
             });
         }).catch((e) => {
             logger.error(`I encountered an error: ${e}`)
@@ -69,8 +78,12 @@ class LogForm extends React.Component {
             <div>
             <form>
                 <label>
-                    {this.props.labelName}
-                    <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    Key 1
+                    <input type="text" name="field1" value={this.state.field1} onChange={this.handleChange}/>
+                </label>
+                <label>
+                    Key 2
+                    <input type="text" name="field2" value={this.state.field2} onChange={this.handleChange}/>
                 </label>
                 <button className="button-basic" type="submit" onClick={this.handleSubmit}>
                     {this.props.buttonName}
@@ -82,4 +95,4 @@ class LogForm extends React.Component {
     }
 }
 
-export default LogForm;
+export default JsonLogForm;

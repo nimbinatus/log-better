@@ -1,7 +1,9 @@
 import cherrypy
 import os
 import simplejson as json
+import structlog
 
+logger = structlog.get_logger()
 
 class Root(object):
     @cherrypy.expose
@@ -21,9 +23,15 @@ class LogEndpoint(object):
     @cherrypy.tools.accept(media='text/plain')
     @cherrypy.tools.json_out()
     def POST(self, incoming='nothing'):
+        log = logger.bind(
+            server_protocol=cherrypy.request.server_protocol,
+            scheme=cherrypy.request.scheme,
+            remote=cherrypy.request.remote,
+            local=cherrypy.request.local
+        )
         if cherrypy.request:
             incoming = cherrypy.request.body.read().decode('utf-8')
-        cherrypy.log('LOG: Logged: {}'.format(incoming))
+        log.msg('LOG: Data is {}'.format(incoming), data=incoming)
         message = 'LOG: {}'.format(str(incoming))
         return {'body': message}
 
@@ -34,21 +42,23 @@ class JsonLogEndpoint(object):
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
     def POST(self):
+        log = logger.bind(
+            user_agent="UNKNOWN",
+            peer_ip="0.0.0.0"
+        )
         returnstring = []
         try:
             dataSet = cherrypy.request.json
-            print(dataSet)
             for elem in dataSet:
-                cherrypy.log("Logged: {} as {}".format(elem, dataSet[elem]))
+                log.msg("LOG: Data {} as {}".format(elem, dataSet[elem]))
                 returnstring.append("Log: {} as {}".format(elem, dataSet[elem]))
-            print(returnstring)
             cherrypy.response.body = '\n'.join(returnstring).encode('utf-8')
             cherrypy.response.status = 200
         except Exception as err:
-            print(err)
             cherrypy.response.status = 400
             cherrypy.response.body = "{}".format(err)
         finally:
+            log.msg("RES: {} with {}".format(cherrypy.response.status, cherrypy.response.body))
             return cherrypy.response.body
 
 
@@ -61,7 +71,8 @@ if __name__ == '__main__':
             'tools.staticdir.root': os.path.abspath(os.getcwd()),
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
-            'tools.response_headers.headers': [('Content-Type', 'text/plain'), ('Content-Type', 'application/json')]
+            'tools.response_headers.headers': [('Content-Type', 'text/plain'), ('Content-Type', 'application/json')],
+            'log.screen': True
         }
     }
 

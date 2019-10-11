@@ -5,7 +5,7 @@ const logger = createLogger({
     name: 'jsonform-log',
     streams: [
         {
-            level: 'info',
+            level: 'debug',
             stream: new ConsoleFormattedStream(),
             type: 'raw'
         }

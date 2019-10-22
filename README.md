@@ -1,5 +1,7 @@
 # Log Better: Workshop Resources
 
+[![Coverage Status](https://coveralls.io/repos/github/nimbinatus/log-better/badge.svg?branch=master)](https://coveralls.io/github/nimbinatus/log-better?branch=master)
+
 This repo holds the source code and sample playground for the Log Better workshop. A list of where I've presented this workshop can be found further down in this README.
 
 ## Running locally
@@ -7,12 +9,13 @@ This repo holds the source code and sample playground for the Log Better worksho
 If you don't want to use the main playground at https://logbetter.nimbinatus.com (or if it's not up, which is always possible), you can run this system on your local machine. Right now, all you need is Python 3, Node, and a command line.
 
 1. Clone or download the repo.
-1. Set up a Python virtual environment.
-1. From where you have the repo, `pip install -r requirements.txt`.
+1. Set up and activate a Python virtual environment.
+1. Go into the `api` directory.
+1. Run `pip install -r requirements.txt`.
 1. Go into the `web` directory.
 1. Run your favorite package install command for Node. I use Yarn. I also set up a Node virtual environment because I like my systems clean (nvm, for the curious). It's up to you.
-1. Go back to the root of the repo.
-1. Run `python -m api.py`.
+1. Go to the `api`.
+1. Run `python -m api`.
 1. In a new terminal, go into the `web` directory.
 1. Run `npm start`
 1. The start script will open your browser to the right page automatically. Open the developer tools and try entering in a line of logs.

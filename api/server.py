@@ -5,6 +5,7 @@ import structlog
 
 logger = structlog.get_logger()
 
+
 class Root(object):
     @cherrypy.expose
     def index(self):
@@ -15,8 +16,9 @@ class Root(object):
 class HealthCheck(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
-        return "I'm alive!"
-
+        response = cherrypy.response
+        response.body = "OK".encode('utf-8')
+        return response.body
 
 @cherrypy.expose
 class LogEndpoint(object):

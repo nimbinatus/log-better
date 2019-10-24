@@ -22,13 +22,17 @@ If you don't want to use the main playground at https://logbetter.nimbinatus.com
 
 You can also use the API standalone, if you would prefer. 
 
+### Local testing
+
+To run local tests, simply run `python tests/test_api.py` from the root of the repo on your local machine.
+
 ## Nitty Gritty: Conference Details
 
 ### Abstract
 
 Sure, we’re told actionable, parsable logs are important. But what does that mean? How has that guidance changed? Experiment with different log formats, see how machines parse logs, and discuss best practices for logging. After all, a good log helps the next person, and that might even be you.
 
-###Description
+### Description
 
 Logging is deceptively simple. You import a library, pass strings to it, and BAM you have logs. However, do you know how to write machine-parsable logs? Do you know all of the different log levels and why you need them? What does current logging best practices look like? Logging is an underutilized tool in the developer’s toolbox, and it is often misunderstood as just another unnecessary debugging tool. In reality, logging is a boon to the people who will be working on a system later down the line, and making fantastic logs really is a team sport.
 

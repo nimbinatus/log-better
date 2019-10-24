@@ -9,7 +9,7 @@ logger = structlog.get_logger()
 class Root(object):
     @cherrypy.expose
     def index(self):
-        return open('/web/index.js')
+        return 'hello world'
 
 
 @cherrypy.expose
@@ -24,7 +24,7 @@ class HealthCheck(object):
 class LogEndpoint(object):
     @cherrypy.tools.accept(media='text/plain')
     @cherrypy.tools.json_out()
-    def POST(self, incoming='nothing'):
+    def POST(self):
         log = logger.bind(
             server_protocol=cherrypy.request.server_protocol,
             scheme=cherrypy.request.scheme,

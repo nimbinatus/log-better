@@ -44,10 +44,11 @@ class LogForm extends React.Component {
     async postLog(body) {
         const response = await fetch(this.props.api, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'cors',
             body: `${body}`,
             headers: {
-                "Content-type": "text/plain"
+                "Content-Type": "text/plain",
+                // "Origin": "logbetter-web.nimbinatus.com"
             }
         }).then((res) => {
             this.setState({

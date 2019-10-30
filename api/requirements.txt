@@ -1,4 +1,5 @@
 cherrypy
+cherrypy-cors
 colorama
 simplejson
 structlog

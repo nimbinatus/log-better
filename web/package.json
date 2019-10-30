@@ -10,7 +10,8 @@
   },
   "author": "Laura Santamaria <laura@nimbinatus.com>",
   "license": "MIT",
-  "proxy": "http://localhost:8080/",
+  "proxy": "http://lb-api:8080/",
+  "homepage": "https://logbetter-web.nimbinatus.com",
   "dependencies": {
     "browser-bunyan": "^1.5.3",
     "react": "^16.9.0",

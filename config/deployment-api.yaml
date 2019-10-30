@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lb-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lb-api
+  template:
+    metadata:
+      labels:
+        app: lb-api
+    spec:
+      containers:
+        - name: lb-api
+          image: us.gcr.io/optimal-bivouac-253515/lb-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 30

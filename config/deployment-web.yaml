@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lb-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lb-web
+  template:
+    metadata:
+      labels:
+        app: lb-web
+    spec:
+      containers:
+        - name: lb-web
+          image: us.gcr.io/optimal-bivouac-253515/lb-web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081

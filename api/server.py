@@ -1,27 +1,31 @@
 import cherrypy
+import cherrypy_cors
 import os
-import simplejson as json
+# import simplejson as json
 import structlog
 
+cherrypy_cors.install()
 logger = structlog.get_logger()
 
 
+@cherrypy.expose
 class Root(object):
-    @cherrypy.expose
-    def index(self):
-        return 'hello world'
+    # @cherrypy.expose
+    def GET(self):
+        raise cherrypy.HTTPRedirect("https://logbetter-web.nimbinatus.com/", status=302)
 
 
 @cherrypy.expose
 class HealthCheck(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
-        response = cherrypy.response
-        response.body = "OK".encode('utf-8')
-        return response.body
+        return
 
 @cherrypy.expose
 class LogEndpoint(object):
+    def OPTIONS(self):
+        return
+
     @cherrypy.tools.accept(media='text/plain')
     @cherrypy.tools.json_out()
     def POST(self):
@@ -40,6 +44,9 @@ class LogEndpoint(object):
 
 @cherrypy.expose
 class JsonLogEndpoint(object):
+    def OPTIONS(self):
+        return
+
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -67,17 +74,29 @@ class JsonLogEndpoint(object):
 if __name__ == '__main__':
     env = os.environ.get('APP_ENV', 'local')
     server_type = os.environ.get('APP_TYPE', 'api')
+    origins = ['https://logbetter-web.nimbinatus.com', 'localhost:8081']
     base_config = {
         '/': {
             'tools.sessions.on': True,
             'tools.staticdir.root': os.path.abspath(os.getcwd()),
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
-            'tools.response_headers.headers': [('Content-Type', 'text/plain'), ('Content-Type', 'application/json')],
+            'tools.response_headers.headers': [
+                ('Content-Type', 'text/plain'),
+                ('Content-Type', 'application/json'),
+                ('Access-Control-Allow-Origin', 'https://logbetter-web.nimbinatus.com'),
+                ('Access-Control-Allow-Methods', 'POST, GET, OPTIONS'),
+                ('Access-Control-Allow-Headers', 'Content-Type')
+                # ('Access-Control-Allow-Origin', 'localhost:8081')
+            ],
+            'cors.expose.on': True,
+            'cors.expose.origins': origins,
+            'cors.preflight.origins': origins,
             'log.screen': True
         }
     }
 
+    cherrypy.config.update({'server.socket_host': '0.0.0.0'})
     cherrypy.tree.mount(Root(), '/', base_config)
     cherrypy.tree.mount(HealthCheck(), '/health', base_config)
     cherrypy.tree.mount(LogEndpoint(), '/basic', base_config)

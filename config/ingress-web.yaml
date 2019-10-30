@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lb-web-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
+    networking.gke.io/managed-certificates: "web-certificate"
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  backend:
+    serviceName: lb-web
+    servicePort: 8081

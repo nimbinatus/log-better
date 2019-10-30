@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1beta1
+kind: ManagedCertificate
+metadata:
+  name: web-certificate
+spec:
+  domains:
+    - logbetter-web.nimbinatus.com

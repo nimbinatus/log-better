@@ -5,6 +5,7 @@ import os
 import structlog
 
 cherrypy_cors.install()
+structlog.configure(processors=[structlog.processors.JSONRenderer()])
 logger = structlog.get_logger()
 
 
@@ -52,14 +53,15 @@ class JsonLogEndpoint(object):
     @cherrypy.tools.json_out()
     def POST(self):
         log = logger.bind(
-            user_agent="UNKNOWN",
-            peer_ip="0.0.0.0"
+            user_agent=cherrypy.request.headers.get("HTTP_USER_AGENT", "UNKNOWN"),
+            peer_ip=cherrypy.request.headers.get("REMOTE_ADDR", "0.0.0.0"),
+            forwarded_ip=cherrypy.request.headers.get("HTTP_X_FORWARDED_FOR", "0.0.0.0")
         )
         returnstring = []
         try:
             dataSet = cherrypy.request.json
             for elem in dataSet:
-                log.msg("LOG: Data {} as {}".format(elem, dataSet[elem]))
+                # log.msg("LOG: Data {} as {}".format(elem, dataSet[elem]))
                 returnstring.append("Log: {} as {}".format(elem, dataSet[elem]))
             cherrypy.response.body = '\n'.join(returnstring).encode('utf-8')
             cherrypy.response.status = 200
@@ -67,6 +69,7 @@ class JsonLogEndpoint(object):
             cherrypy.response.status = 400
             cherrypy.response.body = "{}".format(err)
         finally:
+            log.msg("LOG: Data incoming", data=dataSet)
             log.msg("RES: {} with {}".format(cherrypy.response.status, cherrypy.response.body))
             return cherrypy.response.body
 

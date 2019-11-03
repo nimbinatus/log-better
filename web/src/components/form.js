@@ -70,7 +70,7 @@ class LogForm extends React.Component {
             <div>
             <form>
                 <label>
-                    {this.props.labelName}
+                    <div className="labelForm">{this.props.labelName}</div>
                     <input type="text" value={this.state.value} onChange={this.handleChange}/>
                 </label>
                 <button className="button-basic" type="submit" onClick={this.handleSubmit}>

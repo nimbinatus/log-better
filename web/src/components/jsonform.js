@@ -78,11 +78,11 @@ class JsonLogForm extends React.Component {
             <div>
             <form>
                 <label>
-                    Key 1
+                    <div className="labelForm">Key 1</div>
                     <input type="text" name="field1" value={this.state.field1} onChange={this.handleChange}/>
                 </label>
                 <label>
-                    Key 2
+                    <div className="labelForm">Key 2</div>
                     <input type="text" name="field2" value={this.state.field2} onChange={this.handleChange}/>
                 </label>
                 <button className="button-basic" type="submit" onClick={this.handleSubmit}>

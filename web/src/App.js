@@ -32,14 +32,15 @@ function Home() {
             <p>Want to send your data via curl instead? Just post your logs to the API. You can send a plain text
                 message to https://logbetter.nimbinatus.com/basic like this:</p>
             <code>{`
-            curl http://logbetter.nimbinatus.com/basic -X POST -H "Content-Type: text/plain" -d "hello world"
+            curl http://logbetter.nimbinatus.com/basic -X POST -H "Content-Type: text/plain" -A "curl-submit"
+            -d "hello world"
             `}</code>
             <h1>JSON Log Submission</h1>
             <JsonLogForm labelName='Prototype JSON' buttonName='Submit proto-json' api='https://logbetter.nimbinatus.com/api'/>
             <p>If you want to send a structured log line as JSON, send it to https://logbetter.nimbinatus.com/api like
                 this:</p>
             <code>{`
-            curl http://logbetter.nimbinatus.com/api -X POST -H "Content-Type: application/json" -d
+            curl http://logbetter.nimbinatus.com/api -X POST -H "Content-Type: application/json" -A "curl-submit" -d
             '{"key 1":"value 1", "key 2":"value 2"}'
             `}</code>
         </div>

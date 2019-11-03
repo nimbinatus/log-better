@@ -1,7 +1,6 @@
 import cherrypy
 import cherrypy_cors
 import os
-# import simplejson as json
 import structlog
 
 cherrypy_cors.install()
@@ -11,7 +10,6 @@ logger = structlog.get_logger()
 
 @cherrypy.expose
 class Root(object):
-    # @cherrypy.expose
     def GET(self):
         raise cherrypy.HTTPRedirect("https://logbetter-web.nimbinatus.com/", status=302)
 
@@ -53,15 +51,14 @@ class JsonLogEndpoint(object):
     @cherrypy.tools.json_out()
     def POST(self):
         log = logger.bind(
-            user_agent=cherrypy.request.headers.get("HTTP_USER_AGENT", "UNKNOWN"),
-            peer_ip=cherrypy.request.headers.get("REMOTE_ADDR", "0.0.0.0"),
-            forwarded_ip=cherrypy.request.headers.get("HTTP_X_FORWARDED_FOR", "0.0.0.0")
+            user_agent=cherrypy.request.headers.get("USER-AGENT", "UNKNOWN"),
+            peer_ip=cherrypy.request.headers.get("Remote-Addr", "0.0.0.0"),
+            host=cherrypy.request.headers.get("HOST", "0.0.0.0")
         )
         returnstring = []
         try:
             dataSet = cherrypy.request.json
             for elem in dataSet:
-                # log.msg("LOG: Data {} as {}".format(elem, dataSet[elem]))
                 returnstring.append("Log: {} as {}".format(elem, dataSet[elem]))
             cherrypy.response.body = '\n'.join(returnstring).encode('utf-8')
             cherrypy.response.status = 200
@@ -90,7 +87,6 @@ if __name__ == '__main__':
                 ('Access-Control-Allow-Origin', 'https://logbetter-web.nimbinatus.com'),
                 ('Access-Control-Allow-Methods', 'POST, GET, OPTIONS'),
                 ('Access-Control-Allow-Headers', 'Content-Type')
-                # ('Access-Control-Allow-Origin', 'localhost:8081')
             ],
             'cors.expose.on': True,
             'cors.expose.origins': origins,

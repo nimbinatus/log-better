@@ -48,7 +48,6 @@ class LogForm extends React.Component {
             body: `${body}`,
             headers: {
                 "Content-Type": "text/plain",
-                // "Origin": "logbetter-web.nimbinatus.com"
             }
         }).then((res) => {
             this.setState({
